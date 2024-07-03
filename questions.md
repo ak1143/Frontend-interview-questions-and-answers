@@ -611,6 +611,52 @@ DOM stands for `Document Object Model`. It is a `programming interface` for web 
 `Interaction`: JavaScript can interact with the DOM to update, create, or delete elements, respond to events, and modify styles or content dynamically.   
 `Platform-agnostic`: Supported by `browsers` and provides a standardized way to access and manipulate web page content.   
 In essence, `the DOM bridges the gap between web page content and scripts, enabling dynamic and interactive web experiences.`  
+### 17. what are promises in js??
+
+
+`Promises` in JavaScript are objects that represent the `eventual completion` (or failure) of an `asynchronous operation` and its `resulting value`. They provide a way to handle `asynchronous tasks` more cleanly than traditional `callback methods`. A promise can be in one of three states:
+
+`Pending`: The initial state, neither fulfilled nor rejected.  
+`Fulfilled`: The operation completed successfully, and the promise has a resulting value.   
+`Rejected`: The operation failed, and the promise has a reason for the failure (an error).   
+`Promises` have methods like `.then(), .catch(), and .finally()` to handle the resolved value, any error, and cleanup actions, respectively.
+
+### 18. what is event bubbling and event capturing ???
+
+`Event Bubbling` and `Event Capturing` are two phases of `event propagation` in the Document Object Model (DOM) when an event occurs.
+
+`Event Capturing (Trickling Phase):`
+
+The event starts from the `topmost element` (the document) and propagates down to the target element.
+This phase is less commonly used in practice.
+Handlers for capturing can be set by using the third argument (true) in addEventListener.
+Event Bubbling:
+
+`After the event reaches the target element, it propagates back up to the topmost element.`  
+This phase is commonly used for `event delegation`.
+Handlers for bubbling are set by default when using `addEventListener`.  
+Both phases allow developers to control how events are handled and can be useful for tasks like `event delegation,` where you manage `events on a parent element instead of individual child elements.`
+
+### 19. what is Temporial DeadZone ???
+
+`The Temporal Dead Zone (TDZ)` in JavaScript refers to the time between entering a `scope and the initialization of variables` declared with let or const. During this period, accessing these variables results in a `ReferenceError.`
+
+`Key Points`:     
+`Declarations`: let and const are hoisted but not initialized until their declaration.        
+`Accessing TDZ Variables`: Accessing them before initialization throws a ReferenceError.    
+Example:
+
+```javascript
+{
+  console.log(x); // ReferenceError: Cannot access 'x' before initialization
+  let x = 5;
+}
+```
+
+
+
+
+
 
 
 
@@ -672,8 +718,96 @@ var name="abhishek"
 // abhishek
 // and even if u referesh the tab so many times it will always give the same string unless you change the value or closes the window
 // because the var has a global scope. 
-```
 
+
+// 7 
+console.log('start');
+setTimeout(()=>{
+  console.log('timeout')
+},0)
+console.log('end');
+
+// ans- 
+// start
+// end
+// timeout
+
+// because the setTimeout is async function it takes time to execute even if the settime is 0
+
+
+// 8
+
+setTimeout(()=>{
+  console.log('timeout')
+},0)
+promise.resolve().then(()=>
+    console.log('Promise');
+)
+console.log("End");
+
+// ans-
+// End
+// Promise
+// timeout
+
+// because 
+// setTimeout and promise both are async functions and they will go to the queue
+// Firstly 'End' get printed and then the queue gets executed.
+// there are two types of "queues" 1.Callback Queue 2.Micro task queue. 
+// the "Micro Task queue" has more priority than "Callback queue" so first the Micro task queue gets executed that means 
+// Secondly the "Promise" gets printed.
+// then callback queue is executed 
+// that means "timeout" gets printed 
+
+// 9 
+async foo(){
+  return "Hello World!";
+}
+
+const result = foo();
+console.log(result)
+
+// ans -
+// promise - {Hello world!}
+
+// 10
+
+console.log( [1,2] == [1,2] );
+
+// ans- false
+// because the referance of the two array's are different.
+
+// 11
+
+const user1 = {
+      name: 'John',
+      age:25,
+      address: {
+          city: 'Mumbai',
+          state: 'Maharashtra',
+          },
+}
+
+const user2=user1;
+user2.name="abhi";
+user2.address.city="barshi";
+console.log(user1);
+console.log(user2)
+
+
+// ans- 
+// user1
+{   name: 'abhi', 
+    age: 25, 
+    address: {city: 'barshi', state: 'Maharashtra'}}
+// user2
+{   name: 'abhi', 
+    age: 25, 
+    address: {city: 'barshi', state: 'Maharashtra'}}
+
+// when you create a obj by using the equal to sign then the object is created by using the pass by reference in that the reference to the obj is given to the created one then whatever you make changes in the object it will reflect to the original one
+
+```
 
 
 
@@ -681,4 +815,34 @@ var name="abhishek"
 
 # React:-
 
-### 1. what is difference between useState and useRef ??
+### 1. why we use the react over js ???
+
+`1. the dom gets automatically manipulated in react but in js we have to write a code`   
+`2. in react we can create a component and use that whenever or many times we want`   
+React is often preferred over vanilla JavaScript for building user interfaces because it offers several advantages:
+
+`Component-Based Architecture`: React promotes reusable, modular components, making it easier to build and manage complex UIs.   
+`Virtual DOM`: React's Virtual DOM improves `performance` by minimizing direct manipulation of the actual DOM, leading to faster updates.     
+`Declarative Syntax:` React allows developers to describe what the UI should look like at any point in time, simplifying state management and rendering logic.     
+`Ecosystem and Community:` React has a large ecosystem with a wealth of libraries, tools, and community support, facilitating development and problem-solving.   
+`State Management`: Tools like React Hooks and Redux help manage state efficiently across components.    
+These features make React a powerful and efficient choice for developing modern web applications.
+
+### 2. what is difference between useState and useRef ??
+
+The main differences between useState and useRef in React are:
+
+`Purpose`:  
+`useState`: Manages state in functional components. It triggers re-renders when the state changes.   
+`useRef`: Accesses and manipulates DOM elements directly. It doesn't trigger re-renders when its value changes.
+
+`Reactivity:`  
+`useState`: Causes the component to re-render when the state is updated.  
+`useRef`: Holds a mutable value that persists across renders but doesn't cause re-renders when updated.  
+
+`Usage`:   
+`useState`: Ideal for storing data that affects the rendering of the component.  
+`useRef`: Useful for storing references to DOM elements or for keeping any mutable value that doesn't require re-rendering.
+
+
+
